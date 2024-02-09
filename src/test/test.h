@@ -1,17 +1,19 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include <iostream>
-
-#define TEST_VERSION_MAJOR 2
+#include <SFML/Graphics.hpp>
+#include <string>
 
 class Test
 {
     private:
-        int m_value;
+        sf::Image m_image;
+        sf::Texture m_texture;
+        sf::Sprite m_sprite;
+        std::string m_filename;
     public:
-        Test(int value);
-        void display();
+        Test(std::string filename);
+        void display(sf::RenderWindow &window);
 };
 
 #endif // TEST_H

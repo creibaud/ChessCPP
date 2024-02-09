@@ -4,6 +4,7 @@
         "dep": "Ngrx-selectors"
     },
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }

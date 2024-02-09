@@ -35,22 +35,3 @@ fclean: clean
 	rm -f $(APP_NAME)
 
 .PHONY: all fclean clean
-
-SRC_MODIFIED = $(shell git status --porcelain $(SRC_DIR) | grep -E '^(M| M)' | awk '{print $$2}')
-OBJ_MODIFIED = $(SRC_MODIFIED:$(SRC_DIR)/%$(EXT)=$(OBJ_DIR)/%.o)
-DEP_MODIFIED = $(OBJ_MODIFIED:$(OBJ_DIR)/%.o=$(DEP_DIR)/%.d)
-
-ifneq ($(strip $(SRC_MODIFIED)),)
-$(APP_NAME): $(OBJ_MODIFIED)
-	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
-
-$(OBJ_MODIFIED): $(SRC_MODIFIED)
-	@mkdir -p $(@D)
-	$(CC) $(CXXFLAGS) -o $@ -c $<
-
-$(DEP_MODIFIED): $(SRC_MODIFIED)
-	@mkdir -p $(@D)
-	$(CC) $(CXXFLAGS) -MM -MT $(@:$(DEP_DIR)/%.d=$(OBJ_DIR)/%.o) $< > $@
-
--include $(DEP_MODIFIED)
-endif
