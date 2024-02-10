@@ -1,7 +1,7 @@
 #include "piece.h"
 
-Piece::Piece(const PieceType type, const sf::Color color, const sf::Vector2i position)
-    : type(type), color(color), position(position) 
+Piece::Piece(const PieceType type, const sf::Color color)
+    : type(type), color(color) 
 {
     std::string *path = new std::string("assets/pieces/");
 

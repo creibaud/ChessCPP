@@ -6,7 +6,7 @@
 class Queen : public Piece
 {
     public:
-        Queen(const sf::Color color, const sf::Vector2i position);
+        Queen(const sf::Color color);
 };
 
 #endif // QUEEN_H

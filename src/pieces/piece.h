@@ -25,7 +25,7 @@ class Piece
         sf::Sprite sprite;
     
     public:
-        Piece(const PieceType type, const sf::Color color, const sf::Vector2i position);
+        Piece(const PieceType type, const sf::Color color);
         void draw(sf::RenderWindow &window);
 };
 

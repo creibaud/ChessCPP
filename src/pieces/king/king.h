@@ -6,7 +6,7 @@
 class King : public Piece
 {
     public:
-        King(const sf::Color color, const sf::Vector2i position);
+        King(const sf::Color color);
 };
 
 #endif // KING_H

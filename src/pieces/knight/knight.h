@@ -6,7 +6,7 @@
 class Knight : public Piece
 {
     public:
-        Knight(const sf::Color color, const sf::Vector2i position);
+        Knight(const sf::Color color);
 };
 
 #endif // KNIGHT_H

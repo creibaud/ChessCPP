@@ -6,7 +6,7 @@
 class Rook : public Piece
 {
     public:
-        Rook(const sf::Color color, const sf::Vector2i position);
+        Rook(const sf::Color color);
 };
 
 #endif // ROOK_H

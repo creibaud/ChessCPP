@@ -6,7 +6,7 @@
 class Bishop : public Piece
 {
     public:
-        Bishop(const sf::Color color, const sf::Vector2i position);
+        Bishop(const sf::Color color);
 };
 
 #endif // BISHOP_H

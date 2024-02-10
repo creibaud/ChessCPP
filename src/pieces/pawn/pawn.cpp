@@ -1,5 +1,5 @@
 #include "pawn.h"
 
-Pawn::Pawn(const sf::Color color, const sf::Vector2i position)
-    : Piece(PieceType::PAWN, color, position) 
+Pawn::Pawn(const sf::Color color)
+    : Piece(PieceType::PAWN, color) 
 {}

@@ -6,7 +6,7 @@
 class Pawn : public Piece
 {
     public:
-        Pawn(const sf::Color color, const sf::Vector2i position);
+        Pawn(const sf::Color color);
 };
 
 #endif // PAWN_H
