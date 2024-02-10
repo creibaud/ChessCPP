@@ -1,8 +1,8 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include "../includes/position.h"
 #include <SFML/Graphics.hpp>
+#include <string>
 
 enum class PieceType
 {
@@ -19,13 +19,13 @@ class Piece
     private:
         PieceType type;
         sf::Color color;
-        Position pos;
+        sf::Vector2i position;
         sf::Image image;
         sf::Texture texture;
         sf::Sprite sprite;
     
     public:
-        Piece(const PieceType type, const sf::Color color, const Position pos);
+        Piece(const PieceType type, const sf::Color color, const sf::Vector2i position);
         void draw(sf::RenderWindow &window);
 };
 
