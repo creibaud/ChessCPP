@@ -1,7 +1,8 @@
-#include "game/game.h"
+#include "client/client.h"
 
 int main() {
-    Game game;
-    game.run();
+    Client client("localhost", 3000);
+    client.connect();
+    client.disconnect();
     return 0;
 }
