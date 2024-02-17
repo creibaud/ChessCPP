@@ -15,7 +15,7 @@ void Server::connectClients(std::vector<sf::TcpSocket*> *clients) {
         if (this->listener.accept(*newClient) == sf::Socket::Done) {
             newClient->setBlocking(false);
             clients->push_back(newClient);
-            std::cout << "[+] New client connected" << newClient->getRemoteAddress() << ":" << newClient->getRemotePort() << std::endl;
+            std::cout << "[+] New client connected " << newClient->getRemoteAddress() << ":" << newClient->getRemotePort() << std::endl;
         } else {
             std::cout << "[!] Server can't accept new client" << std::endl;
             delete newClient;
@@ -24,7 +24,7 @@ void Server::connectClients(std::vector<sf::TcpSocket*> *clients) {
 }
 
 void Server::disconnectClients(sf::TcpSocket *socket, std::vector<sf::TcpSocket*>::size_type index) {
-    std::cout << "[-] Client disconnected" << socket->getRemoteAddress() << ":" << socket->getRemotePort() << std::endl;
+    std::cout << "[-] Client disconnected " << socket->getRemoteAddress() << ":" << socket->getRemotePort() << std::endl;
     socket->disconnect();
     delete socket;
     this->clients.erase(this->clients.begin() + index);
