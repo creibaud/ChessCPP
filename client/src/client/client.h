@@ -3,23 +3,25 @@
 
 #include <SFML/Network.hpp>
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include <string>
 
 class Client {
     private:
-        sf::IpAddress address;
-        unsigned short port;
-        
         sf::TcpSocket socket;
+        sf::Packet lastPacket;
 
-        std::string pseudo;
-
+        bool isConnected = false;
     public:
-        Client(const std::string& address, unsigned short port);
+        Client();
 
-        void sendPseudo();
-        void connect();
-        void disconnect();
+        void connect(const std::string &addr, unsigned short port);
+
+        void receivePacket(sf::TcpSocket *socket);
+        void sendPacket(sf::Packet &packet);
+
+        void run();
 };
 
 #endif // CLIENT_H
