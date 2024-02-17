@@ -1,6 +1,6 @@
 CC = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Wpedantic -Werror -g
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
 
 APP_NAME = chess
 EXT = .cpp
