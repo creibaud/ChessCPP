@@ -8,8 +8,17 @@ Logs::Logs() {
     this->font.loadFromFile("assets/fonts/roboto/Roboto-Medium.ttf");
     this->fontSize = 0;
 
-    for (int i = 0; i < 50; i++) {
-        sf::Text *text = new sf::Text(std::to_string(i), this->font, 20);
+    for (int i = 0; i < 150; i++) {
+        sf::Text *text = new sf::Text();
+        if ((i + 1) / 100 >= 1) {
+            text->setString(std::to_string(i + 1) + ".  " + "test");
+        } else if ((i + 1) / 10 >= 1) {
+            text->setString(std::to_string(i + 1) + ".    " + "test");
+        } else {
+            text->setString(std::to_string(i + 1) + ".      " + "test");
+        }
+
+        text->setFont(this->font);
         text->setFillColor(COLOR_WHITE);
         this->logsText.push_back(text);
     }
