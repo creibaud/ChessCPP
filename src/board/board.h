@@ -9,9 +9,9 @@ class Board {
     private:
         Cell cells[BOARD_SIZE][BOARD_SIZE];
 
-        int windowSize;
-        int cellSize;
-        int boardSize;
+        float windowSize;
+        float cellSize;
+        float boardSize;
         sf::Vector2f boardPosition;
 
     public:

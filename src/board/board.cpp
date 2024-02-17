@@ -17,10 +17,10 @@ Board::Board() {
 }
 
 void Board::update(sf::Vector2f windowSize) {
-    this->windowSize = static_cast<int>(std::min(windowSize.x, windowSize.y));
-    this->boardSize = static_cast<int>(this->windowSize * 0.90);
+    this->windowSize = std::min(windowSize.x, windowSize.y);
+    this->boardSize = 1.95 * this->windowSize / 3;
     this->cellSize = this->boardSize / BOARD_SIZE;
-    this->boardPosition = sf::Vector2f((windowSize.x - this->boardSize) / 2, (windowSize.y - this->boardSize) / 2);
+    this->boardPosition = sf::Vector2f(this->windowSize * 0.05 / 3 + windowSize.x / 2 - 3.05 * this->boardSize / 4, (windowSize.y - this->boardSize) / 2);
 
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
