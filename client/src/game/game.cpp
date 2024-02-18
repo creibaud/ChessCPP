@@ -1,13 +1,34 @@
 #include "game.h"
 
 Game::Game() {
+    this->logsViewPosY = 0;
+    this->init();
+}
+
+void Game::init() {
+    this->initClient();
     this->window.create(sf::VideoMode(1200, 800), "Chess");
     this->window.setFramerateLimit(60);
-
-    this->isPlayerWhite = true;
-    this->logsViewPosY = 0;
     this->board.init(this->isPlayerWhite);
     this->initPieces();
+}
+
+void Game::initClient() {
+    std::string addr;
+    std::cout << "Enter server address: ";
+    std::cin >> addr;
+    
+    unsigned short port;
+    std::cout << "Enter server port: ";
+    std::cin >> port;
+
+    this->client.connect(addr, port);
+
+    if (this->client.getColor() == "black") {
+        this->isPlayerWhite = false;
+    } else if (this->client.getColor() == "white") {
+        this->isPlayerWhite = true;
+    }
 }
 
 void Game::initPieces() {
@@ -52,13 +73,31 @@ void Game::handleEvents() {
         if (event.type == sf::Event::Closed) {
             this->window.close();
         }
+        this->handleScroll(event);
+    }
+}
 
-        if (event.type == sf::Event::MouseWheelScrolled) {
-            if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-                if (event.mouseWheelScroll.delta > 0 && this->logsViewPosY < this->logs.getMaxPosY()) {
-                    this->logsViewPosY += this->logs.getFontSize();
-                } else if (event.mouseWheelScroll.delta < 0 && this->logsViewPosY > 0) {
-                    this->logsViewPosY -= this->logs.getFontSize();
+void Game::handleScroll(sf::Event &event) {
+    if (event.type == sf::Event::MouseWheelScrolled) {
+        if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+            if (event.mouseWheelScroll.delta > 0 && this->logsViewPosY < this->logs.getMaxPosY()) {
+                this->logsViewPosY += this->logs.getFontSize();
+            } else if (event.mouseWheelScroll.delta < 0 && this->logsViewPosY > 0) {
+                this->logsViewPosY -= this->logs.getFontSize();
+            }
+        }
+    }
+}
+
+void Game::handlePieceClick(sf::Event &event) {
+    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            for (int row = 0; row < BOARD_SIZE; row++) {
+                for (int col = 0; col < BOARD_SIZE; col++) {
+                    if (this->board.getCell(row, col).isClicked(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
+                        std::string coords = this->board.getCell(row, col).getCoordinates().getCoords();
+                        std::cout << "Clicked: " << coords << std::endl;
+                    }
                 }
             }
         }

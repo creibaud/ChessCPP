@@ -26,13 +26,21 @@ void Board::init(bool isPlayerWhite) {
 
             if (i == BOARD_SIZE - 1) {
                 sf::Text *text = new sf::Text(coords.getCoords()[0], this->font, 20);
-                text->setFillColor(sf::Color::Black);
+                if (coords.getColor() == COLOR_WHITE) {
+                    text->setFillColor(COLOR_BLACK);
+                } else {
+                    text->setFillColor(COLOR_WHITE);
+                }
                 this->letters.push_back(text);
             }
 
             if (j == 0) {
                 sf::Text *text = new sf::Text(coords.getCoords()[1], this->font, 20);
-                text->setFillColor(sf::Color::Black);
+                if (coords.getColor() == COLOR_WHITE) {
+                    text->setFillColor(COLOR_BLACK);
+                } else {
+                    text->setFillColor(COLOR_WHITE);
+                }
                 this->nums.push_back(text);
             }
         }
@@ -47,6 +55,10 @@ sf::Vector2f Board::getPosition() const {
     return this->boardPosition;
 }
 
+Cell Board::getCell(int row, int col) const {
+    return this->cells[row][col];
+}
+
 void Board::update(sf::Vector2f windowSize, bool isPlayerWhite) {
     this->windowSize = static_cast<int>(std::min(windowSize.x, windowSize.y));
     this->boardSize = static_cast<int>(1.95 * this->windowSize / 3);
@@ -58,13 +70,13 @@ void Board::update(sf::Vector2f windowSize, bool isPlayerWhite) {
             this->cells[i][j].setSize(this->cellSize, this->boardPosition, isPlayerWhite);
 
             if (i == BOARD_SIZE - 1) {
-                this->letters[j]->setCharacterSize(this->windowSize / 50);
-                this->letters[j]->setPosition(this->cells[i][j].getPosition().x + this->cellSize - this->letters[j]->getCharacterSize(), this->cells[i][j].getPosition().y + this->cellSize - this->letters[j]->getCharacterSize());
+                this->letters[j]->setCharacterSize(this->windowSize / 55);
+                this->letters[j]->setPosition(this->cells[i][j].getPosition().x + this->cellSize - 0.75 * this->letters[j]->getCharacterSize(), this->cells[i][j].getPosition().y + this->cellSize - 1.25 * this->letters[j]->getCharacterSize());
             }
 
             if (j == 0) {
-                this->nums[i]->setCharacterSize(this->windowSize / 50);
-                this->nums[i]->setPosition(this->cells[i][j].getPosition().x, this->cells[i][j].getPosition().y);
+                this->nums[i]->setCharacterSize(this->windowSize / 55);
+                this->nums[i]->setPosition(this->cells[i][j].getPosition().x + 0.25 * this->nums[i]->getCharacterSize(), this->cells[i][j].getPosition().y + 0.15 * this->nums[i]->getCharacterSize());
             }
         }
     }

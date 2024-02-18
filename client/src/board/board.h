@@ -27,6 +27,7 @@ class Board {
 
         int getCellSize() const;
         sf::Vector2f getPosition() const;
+        Cell getCell(int row, int col) const;
 
         void update(sf::Vector2f windowSize, bool isPlayerWhite);
 

@@ -24,6 +24,10 @@ sf::RectangleShape Cell::getShape() const {
     return this->shape;
 }
 
+bool Cell::isClicked(const sf::Vector2f &mousePos) const {
+    return this->shape.getGlobalBounds().contains(mousePos);
+}
+
 void Cell::render(sf::RenderWindow &window) {
     window.draw(this->shape);
 }

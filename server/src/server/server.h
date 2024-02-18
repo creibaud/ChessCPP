@@ -8,6 +8,8 @@
 #include <thread>
 #include <chrono>
 
+#define MAX_CLIENTS 2
+
 class Server {
     private:
         sf::TcpListener listener;

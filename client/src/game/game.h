@@ -3,6 +3,7 @@
 
 #include "../pieces/piece.h"
 #include "../logs/logs.h"
+#include "../client/client.h"
 #include <vector>
 
 class Game {
@@ -19,15 +20,21 @@ class Game {
 
         bool isPlayerWhite;
         std::vector<std::vector<Piece*>> pieces;
+
+        Client client;
     
     public:
         Game();
-
+        
+        void init();
+        void initClient();
         void initPieces();
 
         void run();
 
         void handleEvents();
+        void handleScroll(sf::Event &event);
+        void handlePieceClick(sf::Event &event);
 
         void update();
 

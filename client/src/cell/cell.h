@@ -20,6 +20,8 @@ class Cell {
         sf::Vector2f getPosition() const;
         sf::RectangleShape getShape() const;
 
+        bool isClicked(const sf::Vector2f &mousePos) const;
+
         void render(sf::RenderWindow &window);
 };
 

@@ -1,9 +1,19 @@
 #include "client.h"
 
 Client::Client() {
+    this->color = "";
+
     std::cout << "[*] Client started" << std::endl;
     std::cout << "[*] Enter your pseudo : ";
     std::cin >> this->pseudo;
+}
+
+std::string Client::getPseudo() const {
+    return this->pseudo;
+}
+
+std::string Client::getColor() const {
+    return this->color;
 }
 
 void Client::connect(const std::string &addr, unsigned short port) {
@@ -16,6 +26,15 @@ void Client::connect(const std::string &addr, unsigned short port) {
 
         std::cout << "[*] Connected to " << addr << ":" << port << std::endl;
         this->isConnected = true;
+
+        if (this->socket.receive(this->lastPacket) == sf::Socket::Done) {
+            this->lastPacket >> this->color;
+            std::cout << "[*] You are " << this->color << std::endl;
+        } else {
+            std::cout << "[!] Can't get color from server" << std::endl;
+        }
+
+        this->lastPacket.clear();
     }
 }
 

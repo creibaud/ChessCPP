@@ -13,16 +13,19 @@ class Client {
         sf::Packet lastPacket;
 
         std::string pseudo;
+        std::string color;
         bool isConnected = false;
     public:
         Client();
+
+        std::string getPseudo() const;
+        std::string getColor() const;
 
         void connect(const std::string &addr, unsigned short port);
 
         void receivePacket(sf::TcpSocket *socket);
         void sendPacket(sf::Packet &packet);
-
+        
         void run();
 };
-
 #endif // CLIENT_H
