@@ -98,6 +98,10 @@ void Game::handleEvents() {
         }
         this->handleScroll(event);
         this->handlePieceClick(event);
+
+        if (this->selectedPiece != nullptr && this->isClientTurn) {
+            this->handlePieceClickMove(event);
+        }
     }
 
     this->handlePieceHover();
@@ -158,10 +162,51 @@ void Game::handlePieceClick(sf::Event &event) {
     }
 }
 
+void Game::handlePieceClickMove(sf::Event &event) {
+    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            for (int row = 0; row < BOARD_SIZE; row++) {
+                for (int col = 0; col < BOARD_SIZE; col++) {
+                    if (this->board.getCell(row, col).isHovered(this->mousePos)) {
+                        for (std::vector<Coordinates*>::size_type i = 0; i < this->selectedPiece->getPossibleMoves().size(); i++) {
+                            if (this->selectedPiece->getPossibleMoves()[i]->getCoords() == this->board.getCell(row, col).getCoordinates().getCoords()) {
+                                Coordinates oldCoord = this->selectedPiece->getCoordinates();
+                                this->selectedPiece->setCoordinates(*this->selectedPiece->getPossibleMoves()[i]);
+                                this->selectedPiece->setSelected(false);
+
+                                std::string line =  this->selectedPiece->getName() + " " + ":" + oldCoord.getCoords() + "->" + this->selectedPiece->getCoordinates().getCoords();
+                                sf::Packet packet;
+                                packet << line;
+                                this->client.sendPacket(packet);
+
+                                this->logs.addLog(line.substr(0, 2) + line.substr(7, 2));
+
+                                this->selectedPiece = nullptr;
+                                this->isClientTurn = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 void Game::update() {
     if (this->client.getEnemyMoves().size() > this->enemyMoves.size()) {
         this->enemyMoves = this->client.getEnemyMoves();
         std::cout << "Enemy move: " << this->enemyMoves.back() << std::endl;
+
+        std::string coords = this->enemyMoves.back();
+        this->logs.addLog(coords.substr(0, 2) + coords.substr(7, 2));
+        for (std::vector<Piece*>::iterator piece = this->enemyPieces->begin(); piece != this->enemyPieces->end(); piece++) {
+            if ((*piece)->getName() == coords.substr(0, 1)) {
+                if ((*piece)->getCoordinates().getCoords() == coords.substr(3, 2)) {
+                    (*piece)->setCoordinates(Coordinates(coords.substr(7, 2)));
+                }
+            }
+        }
         this->isClientTurn = true;
     }
 

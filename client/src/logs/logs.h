@@ -2,6 +2,7 @@
 #define LOGS_H
 
 #include <iostream>
+#include <map>
 #include <vector>
 #include "../includes/colors.h"
 
@@ -16,10 +17,13 @@ class Logs {
         float windowSize;
         float maxSize;
 
-        std::vector<sf::Text*> logsText;
+        int actualIndex;
+        std::map<int, std::vector<sf::Text*>> logsText;
 
     public:
         Logs();
+
+        void addLog(const std::string &log);
 
         sf::RectangleShape getShape() const;
         int getFontSize() const;

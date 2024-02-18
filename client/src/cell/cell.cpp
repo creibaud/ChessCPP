@@ -24,7 +24,7 @@ sf::RectangleShape Cell::getShape() const {
     return this->shape;
 }
 
-bool Cell::isClicked(sf::Vector2i mousePos) const {
+bool Cell::isHovered(sf::Vector2i mousePos) const {
     return this->shape.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
 

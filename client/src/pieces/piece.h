@@ -3,6 +3,7 @@
 
 #include "../board/board.h"
 #include <iostream>
+#include <fstream>
 
 enum class PieceType {
     PAWN,
@@ -21,6 +22,7 @@ enum class PieceColor {
 class Piece {
     private:
         PieceType type;
+        std::string name;
 
         sf::Image image;
         sf::Texture texture;
@@ -49,6 +51,7 @@ class Piece {
         virtual void setPossibleMoves();
         void setSelected(bool selected);
         
+        std::string getName() const;
         PieceType getType() const;
         PieceColor getColor() const;
         Coordinates getCoordinates() const;

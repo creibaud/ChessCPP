@@ -1,6 +1,31 @@
 #include "piece.h"
 
 Piece::Piece(PieceType type, PieceColor color, Coordinates coordinates) : type(type), color(color), coordinates(coordinates) {
+    this->name = "";
+
+    switch (type) {
+        case PieceType::PAWN:
+            this->name = "P";
+            break;
+        case PieceType::ROOK:
+            this->name = "R";
+            break;
+        case PieceType::KNIGHT:
+            this->name = "N";
+            break;
+        case PieceType::BISHOP:
+            this->name = "B";
+            break;
+        case PieceType::QUEEN:
+            this->name = "Q";
+            break;
+        case PieceType::KING:
+            this->name = "K";
+            break;
+        default:
+            break;
+    }
+    
     std::string path = "assets/pieces/";
     path += (color == PieceColor::WHITE) ? "white/" : "black/";
 
@@ -57,6 +82,10 @@ void Piece::setPossibleMoves() {
 
 void Piece::setSelected(bool selected) {
     this->selected = selected;
+}
+
+std::string Piece::getName() const {
+    return this->name;
 }
 
 PieceType Piece::getType() const {

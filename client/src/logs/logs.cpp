@@ -10,20 +10,27 @@ Logs::Logs() {
     }
     
     this->fontSize = 0;
+    this->actualIndex = 1;
+    this->logsText.emplace(this->actualIndex, std::vector<sf::Text*>());
+}
 
-    for (int i = 0; i < 150; i++) {
-        sf::Text *text = new sf::Text();
-        if ((i + 1) / 100 >= 1) {
-            text->setString(std::to_string(i + 1) + ".  " + "test");
-        } else if ((i + 1) / 10 >= 1) {
-            text->setString(std::to_string(i + 1) + ".    " + "test");
-        } else {
-            text->setString(std::to_string(i + 1) + ".      " + "test");
-        }
+void Logs::addLog(const std::string &log) {
+    sf::Text *text = new sf::Text();
+    
+    if (log[1] == 'x') {
+        text->setString(log);
+    } else {
+        text->setString(log.substr(0, 1) + log.substr(2, 2));
+    }
 
-        text->setFont(this->font);
-        text->setFillColor(COLOR_WHITE);
-        this->logsText.push_back(text);
+    text->setFont(this->font);
+    text->setFillColor(COLOR_WHITE);
+    
+    if (this->logsText[this->actualIndex].size() < 2) {
+        this->logsText[this->actualIndex].emplace_back(text);
+    } else {
+        this->actualIndex++;
+        this->logsText[this->actualIndex].emplace_back(text);
     }
 }
 
@@ -62,10 +69,12 @@ void Logs::renderMask(sf::RenderWindow &window) {
 }
 
 void Logs::renderText(sf::RenderWindow &window) {
-    for (std::vector<sf::Text*>::size_type i = 0; i < this->logsText.size(); i++) {
-        this->logsText[i]->setCharacterSize(this->fontSize);
-        this->logsText[i]->setPosition(this->shape.getPosition().x + this->fontSize, this->shape.getPosition().y + i * this->fontSize);
-        window.draw(*this->logsText[i]);
+    for (std::map<int, std::vector<sf::Text*>>::iterator it = this->logsText.begin(); it != this->logsText.end(); ++it) {
+        for (std::vector<sf::Text*>::size_type i = 0; i != it->second.size(); i++) {
+            it->second[i]->setCharacterSize(this->fontSize);
+            it->second[i]->setPosition(this->shape.getPosition().x + it->second[i]->getGlobalBounds().width * i + 2 * i * this->fontSize, this->shape.getPosition().y + it->first * this->fontSize);
+            window.draw(*it->second[i]);
+        }
     }
 }
 

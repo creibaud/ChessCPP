@@ -17,11 +17,14 @@ void Pawn::setPossibleMoves() {
 
     std::string coords = this->coordinates.getCoords();
     coords[1] += this->direction;
-    Coordinates* newCoords = new Coordinates(coords);
+    
+    if (coords[1] >= '1' && coords[1] <= '8') {
+        Coordinates* newCoords = new Coordinates(coords);
 
-    sf::CircleShape* shape = new sf::CircleShape();
-    shape->setFillColor(COLOR_POSSIBLE_MOVE);
+        sf::CircleShape* shape = new sf::CircleShape();
+        shape->setFillColor(COLOR_POSSIBLE_MOVE);
 
-    this->possibleMoves.push_back(newCoords);
-    this->possibleMovesShape.push_back(shape);
+        this->possibleMoves.push_back(newCoords);
+        this->possibleMovesShape.push_back(shape);
+    }
 }
