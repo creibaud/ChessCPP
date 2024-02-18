@@ -2,6 +2,8 @@
 #define BOARD_H
 
 #include "../cell/cell.h"
+#include <vector>
+#include <iostream>
 
 #define BOARD_SIZE 8
 
@@ -13,6 +15,10 @@ class Board {
         int cellSize;
         int boardSize;
         sf::Vector2f boardPosition;
+
+        sf::Font font;
+        std::vector<sf::Text*> nums;
+        std::vector<sf::Text*> letters;
 
     public:
         Board();

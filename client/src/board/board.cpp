@@ -1,6 +1,10 @@
 #include "board.h"
 
-Board::Board() {}
+Board::Board() {
+    if (!this->font.loadFromFile("assets/fonts/roboto/Roboto-Medium.ttf")) {
+        std::cerr << "Error: could not load font" << std::endl;
+    }
+}
 
 void Board::init(bool isPlayerWhite) {
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -19,6 +23,18 @@ void Board::init(bool isPlayerWhite) {
             }
 
             this->cells[i][j].setCoordinates(coords);
+
+            if (i == BOARD_SIZE - 1) {
+                sf::Text *text = new sf::Text(coords.getCoords()[0], this->font, 20);
+                text->setFillColor(sf::Color::Black);
+                this->letters.push_back(text);
+            }
+
+            if (j == 0) {
+                sf::Text *text = new sf::Text(coords.getCoords()[1], this->font, 20);
+                text->setFillColor(sf::Color::Black);
+                this->nums.push_back(text);
+            }
         }
     }
 }
@@ -40,6 +56,16 @@ void Board::update(sf::Vector2f windowSize, bool isPlayerWhite) {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
             this->cells[i][j].setSize(this->cellSize, this->boardPosition, isPlayerWhite);
+
+            if (i == BOARD_SIZE - 1) {
+                this->letters[j]->setCharacterSize(this->windowSize / 50);
+                this->letters[j]->setPosition(this->cells[i][j].getPosition().x + this->cellSize - this->letters[j]->getCharacterSize(), this->cells[i][j].getPosition().y + this->cellSize - this->letters[j]->getCharacterSize());
+            }
+
+            if (j == 0) {
+                this->nums[i]->setCharacterSize(this->windowSize / 50);
+                this->nums[i]->setPosition(this->cells[i][j].getPosition().x, this->cells[i][j].getPosition().y);
+            }
         }
     }
 }
@@ -48,6 +74,14 @@ void Board::render(sf::RenderWindow &window) {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
             this->cells[i][j].render(window);
+
+            if (i == BOARD_SIZE - 1) {
+                window.draw(*this->letters[j]);
+            }
+
+            if (j == 0) {
+                window.draw(*this->nums[i]);
+            }
         }
     }
 }
