@@ -11,6 +11,8 @@ Game::Game() {
 
     this->logsViewPosY = 0;
     this->init();
+
+    this->selectedPiece = nullptr;
 }
 
 void Game::init() {
@@ -95,6 +97,7 @@ void Game::handleEvents() {
             this->window.close();
         }
         this->handleScroll(event);
+        this->handlePieceClick(event);
     }
 
     this->handlePieceHover();
@@ -117,6 +120,28 @@ void Game::handlePieceHover() {
     for (std::vector<Piece*>::iterator piece = this->playerPieces->begin(); piece != this->playerPieces->end(); piece++) {
         if ((*piece)->isHovered(this->mousePos)) {
             this->window.setMouseCursor(this->cursorHand);
+        }
+    }
+}
+
+void Game::handlePieceClick(sf::Event &event) {
+    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            for (std::vector<Piece*>::iterator piece = this->playerPieces->begin(); piece != this->playerPieces->end(); piece++) {
+                if ((*piece)->isHovered(this->mousePos)) {
+                    if (this->selectedPiece == nullptr) {
+                        this->selectedPiece = *piece;
+                        this->selectedPiece->setSelected(true);
+                    } else if (this->selectedPiece == *piece) {
+                        this->selectedPiece->setSelected(false);
+                        this->selectedPiece = nullptr;
+                    } else {
+                        this->selectedPiece->setSelected(false);
+                        this->selectedPiece = *piece;
+                        this->selectedPiece->setSelected(true);
+                    }
+                }
+            }
         }
     }
 }

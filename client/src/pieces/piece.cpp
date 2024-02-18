@@ -38,6 +38,7 @@ Piece::Piece(PieceType type, PieceColor color, Coordinates coordinates) : type(t
     }
 
     this->sprite.setTexture(this->texture);
+    this->selected = false;
 }
 
 void Piece::setCoordinates(Coordinates coordinates){
@@ -46,6 +47,10 @@ void Piece::setCoordinates(Coordinates coordinates){
 
 void Piece::setPossibleMoves() {
     this->possibleMoves.clear();
+}
+
+void Piece::setSelected(bool selected) {
+    this->selected = selected;
 }
 
 PieceType Piece::getType() const {
@@ -71,8 +76,17 @@ bool Piece::isHovered(sf::Vector2i mousePos) const {
 void Piece::update(float cellSize, sf::Vector2f position, bool isPlayerWhite) {
     this->sprite.setScale(cellSize / this->texture.getSize().x, cellSize / this->texture.getSize().y);
     this->sprite.setPosition(position.x + this->coordinates.getPosition(isPlayerWhite).first * cellSize, position.y + this->coordinates.getPosition(isPlayerWhite).second * cellSize);
+    this->shape.setSize(this->sprite.getGlobalBounds().getSize());
+    this->shape.setPosition(this->sprite.getPosition());
+
+    if (this->selected) {
+        this->shape.setFillColor(COLOR_SELECTED);
+    } else {
+        this->shape.setFillColor(sf::Color::Transparent);
+    }
 }
 
 void Piece::render(sf::RenderWindow &window) {
+    window.draw(this->shape);
     window.draw(this->sprite);
 }

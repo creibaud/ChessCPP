@@ -43,7 +43,7 @@ class Game {
         void handleEvents();
         void handleScroll(sf::Event &event);
         void handlePieceHover();
-        void handlePieceClick();
+        void handlePieceClick(sf::Event &event);
 
         void update();
 

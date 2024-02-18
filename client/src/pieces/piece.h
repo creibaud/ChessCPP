@@ -27,14 +27,17 @@ class Piece {
         sf::Image image;
         sf::Texture texture;
         sf::Sprite sprite;
+        sf::RectangleShape shape;
 
         std::vector<Coordinates*> possibleMoves;
+        bool selected;
     
     public:
         Piece(PieceType type, PieceColor color, Coordinates coordinates);
 
         void setCoordinates(Coordinates coordinates);
         virtual void setPossibleMoves();
+        void setSelected(bool selected);
         
         PieceType getType() const;
         PieceColor getColor() const;

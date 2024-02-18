@@ -9,4 +9,6 @@
 #define COLOR_MAIN_BG sf::Color(48, 46, 43)
 #define COLOR_LOGS_BG sf::Color(38, 37, 34)
 
+#define COLOR_SELECTED sf::Color(255, 255, 0, 127)
+
 #endif // COLORS_H
