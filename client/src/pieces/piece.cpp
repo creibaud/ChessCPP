@@ -64,7 +64,7 @@ sf::Sprite Piece::getSprite() const {
     return this->sprite;
 }
 
-bool Piece::isClicked(sf::Vector2i mousePos) const {
+bool Piece::isHovered(sf::Vector2i mousePos) const {
     return this->sprite.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
 

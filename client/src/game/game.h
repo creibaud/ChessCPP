@@ -10,6 +10,8 @@ class Game {
     private:
         sf::RenderWindow window;
         sf::Vector2i mousePos;
+        sf::Cursor cursorArrow;
+        sf::Cursor cursorHand;
 
         sf::View staticView;
         sf::View logsView;
@@ -20,7 +22,9 @@ class Game {
         Logs logs;
 
         bool isPlayerWhite;
-        std::vector<std::vector<Piece*>> pieces;
+        std::vector<Piece*> *playerPieces;
+        std::vector<Piece*> *enemyPieces;
+        Piece *selectedPiece;
 
         std::vector<std::string> enemyMoves;
 
@@ -38,7 +42,8 @@ class Game {
 
         void handleEvents();
         void handleScroll(sf::Event &event);
-        void handlePieceClick(sf::Event &event);
+        void handlePieceHover();
+        void handlePieceClick();
 
         void update();
 

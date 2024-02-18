@@ -41,7 +41,7 @@ class Piece {
         Coordinates getCoordinates() const;
         sf::Sprite getSprite() const;
 
-        bool isClicked(sf::Vector2i mousePos) const;
+        bool isHovered(sf::Vector2i mousePos) const;
         void update(float cellSize, sf::Vector2f position, bool isPlayerWhite);
 
         void render(sf::RenderWindow &window);
