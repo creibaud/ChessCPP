@@ -10,5 +10,6 @@
 #define COLOR_LOGS_BG sf::Color(38, 37, 34)
 
 #define COLOR_SELECTED sf::Color(255, 255, 0, 127)
+#define COLOR_POSSIBLE_MOVE sf::Color(0, 0, 0, 100)
 
 #endif // COLORS_H

@@ -50,8 +50,8 @@ void Game::initPieces() {
     std::vector<Piece*> *blackPieces = new std::vector<Piece*>();
 
     for (int i = 0; i < 8; i++) {
-        whitePieces->push_back(new Piece(PieceType::PAWN, PieceColor::WHITE, Coordinates(std::string(1, 'a' + i) + "2")));
-        blackPieces->push_back(new Piece(PieceType::PAWN, PieceColor::BLACK, Coordinates(std::string(1, 'a' + i) + "7")));
+        whitePieces->push_back(new Pawn(PieceColor::WHITE, Coordinates(std::string(1, 'a' + i) + "2")));
+        blackPieces->push_back(new Pawn(PieceColor::BLACK, Coordinates(std::string(1, 'a' + i) + "7")));
     }
 
     whitePieces->push_back(new Piece(PieceType::ROOK, PieceColor::WHITE, Coordinates("a1")));
@@ -139,6 +139,18 @@ void Game::handlePieceClick(sf::Event &event) {
                         this->selectedPiece->setSelected(false);
                         this->selectedPiece = *piece;
                         this->selectedPiece->setSelected(true);
+                    }
+
+                    if (this->selectedPiece != nullptr) {
+                        switch (this->selectedPiece->getType()) {
+                            case PieceType::PAWN: {
+                                Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
+                                pawn->setPossibleMoves();
+                                break;
+                            }
+                            default:
+                                break;
+                        }
                     }
                 }
             }

@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "../pieces/piece.h"
+#include "../pieces/pawn/pawn.h"
 #include "../logs/logs.h"
 #include "../client/client.h"
 #include <vector>
