@@ -9,6 +9,7 @@
 class Game {
     private:
         sf::RenderWindow window;
+        sf::Vector2i mousePos;
 
         sf::View staticView;
         sf::View logsView;
@@ -21,7 +22,10 @@ class Game {
         bool isPlayerWhite;
         std::vector<std::vector<Piece*>> pieces;
 
+        std::vector<std::string> enemyMoves;
+
         Client client;
+        bool isClientTurn;
     
     public:
         Game();

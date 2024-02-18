@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
+#include <vector>
 
 class Client {
     private:
@@ -14,12 +15,15 @@ class Client {
 
         std::string pseudo;
         std::string color;
+
+        std::vector<std::string> enemyMoves;
         bool isConnected = false;
     public:
         Client();
 
         std::string getPseudo() const;
         std::string getColor() const;
+        std::vector<std::string> getEnemyMoves() const;
 
         void connect(const std::string &addr, unsigned short port);
 

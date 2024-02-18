@@ -10,7 +10,7 @@ Server::Server(const std::string &addr, unsigned short port) : port(port) {
 }
 
 void Server::connectClients(std::map<std::string, sf::TcpSocket*> *clients) {
-    while (clients->size() < MAX_CLIENTS) {
+    while (true) {
         sf::TcpSocket *newClient = new sf::TcpSocket();
         if (this->listener.accept(*newClient) == sf::Socket::Done) {
             std::string pseudo;
@@ -21,7 +21,7 @@ void Server::connectClients(std::map<std::string, sf::TcpSocket*> *clients) {
                 newClient->setBlocking(false);
 
                 packet.clear();
-                if (clients->size() == 0) {
+                if (clients->size() % 2 == 0) {
                     packet << "white";
                     newClient->send(packet);
                 } else {

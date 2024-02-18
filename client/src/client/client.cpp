@@ -16,6 +16,10 @@ std::string Client::getColor() const {
     return this->color;
 }
 
+std::vector<std::string> Client::getEnemyMoves() const {
+    return this->enemyMoves;
+}
+
 void Client::connect(const std::string &addr, unsigned short port) {
     if (this->socket.connect(addr, port) != sf::Socket::Done) {
         std::cout << "[!] Can't connect to " << addr << ":" << port << std::endl;
@@ -42,9 +46,8 @@ void Client::receivePacket(sf::TcpSocket *socket) {
     while (true) {
         if (socket->receive(this->lastPacket) == sf::Socket::Done) {
             std::string message;
-            std::string senderPseudo;
-            this->lastPacket >> message >> senderPseudo;
-            std::cout << "[" << senderPseudo << "] -> '" << message << "'" << std::endl;
+            this->lastPacket >> message;
+            this->enemyMoves.push_back(message);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -59,17 +62,5 @@ void Client::sendPacket(sf::Packet &packet) {
 
 void Client::run() {
     std::thread receiveThread(&Client::receivePacket, this, &this->socket);
-    
-    while (this->isConnected) {
-        std::string userInput;
-        std::getline(std::cin, userInput);
-
-        if (userInput.size() < 1) {
-            continue;
-        }
-
-        sf::Packet replyPacket;
-        replyPacket << userInput;
-        this->sendPacket(replyPacket);
-    }
+    receiveThread.detach();
 }

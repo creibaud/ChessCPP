@@ -44,6 +44,10 @@ void Piece::setCoordinates(Coordinates coordinates){
     this->coordinates = coordinates;
 }
 
+void Piece::setPossibleMoves() {
+    this->possibleMoves.clear();
+}
+
 PieceType Piece::getType() const {
     return this->type;
 }
@@ -58,6 +62,10 @@ Coordinates Piece::getCoordinates() const {
 
 sf::Sprite Piece::getSprite() const {
     return this->sprite;
+}
+
+bool Piece::isClicked(sf::Vector2i mousePos) const {
+    return this->sprite.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
 
 void Piece::update(float cellSize, sf::Vector2f position, bool isPlayerWhite) {

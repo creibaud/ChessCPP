@@ -26,9 +26,13 @@ void Game::initClient() {
 
     if (this->client.getColor() == "black") {
         this->isPlayerWhite = false;
+        this->isClientTurn = false;
     } else if (this->client.getColor() == "white") {
         this->isPlayerWhite = true;
+        this->isClientTurn = true;
     }
+
+    this->client.run();
 }
 
 void Game::initPieces() {
@@ -61,6 +65,7 @@ void Game::initPieces() {
 
 void Game::run() {
     while (this->window.isOpen()) {
+        this->mousePos = sf::Mouse::getPosition(this->window);
         this->handleEvents();
         this->update();
         this->render();
@@ -74,6 +79,7 @@ void Game::handleEvents() {
             this->window.close();
         }
         this->handleScroll(event);
+        this->handlePieceClick(event);
     }
 }
 
@@ -94,9 +100,15 @@ void Game::handlePieceClick(sf::Event &event) {
         if (event.mouseButton.button == sf::Mouse::Left) {
             for (int row = 0; row < BOARD_SIZE; row++) {
                 for (int col = 0; col < BOARD_SIZE; col++) {
-                    if (this->board.getCell(row, col).isClicked(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
+                    if (this->board.getCell(row, col).isClicked(this->mousePos) && this->isClientTurn) {
                         std::string coords = this->board.getCell(row, col).getCoordinates().getCoords();
                         std::cout << "Clicked: " << coords << std::endl;
+                        
+                        sf::Packet packet;
+                        packet << coords;
+                        this->client.sendPacket(packet);
+
+                        this->isClientTurn = false;
                     }
                 }
             }
@@ -105,6 +117,12 @@ void Game::handlePieceClick(sf::Event &event) {
 }
 
 void Game::update() {
+    if (this->client.getEnemyMoves().size() > this->enemyMoves.size()) {
+        this->enemyMoves = this->client.getEnemyMoves();
+        std::cout << "Enemy move: " << this->enemyMoves.back() << std::endl;
+        this->isClientTurn = true;
+    }
+
     this->staticView = sf::View(sf::FloatRect(0, 0, this->window.getSize().x, this->window.getSize().y));
     this->logsView = sf::View(sf::FloatRect(sf::FloatRect(0, this->logsViewPosY, this->window.getSize().x, this->window.getSize().y)));
     this->board.update(this->staticView.getSize(), this->isPlayerWhite);

@@ -27,17 +27,21 @@ class Piece {
         sf::Image image;
         sf::Texture texture;
         sf::Sprite sprite;
+
+        std::vector<Coordinates*> possibleMoves;
     
     public:
         Piece(PieceType type, PieceColor color, Coordinates coordinates);
 
         void setCoordinates(Coordinates coordinates);
+        virtual void setPossibleMoves();
         
         PieceType getType() const;
         PieceColor getColor() const;
         Coordinates getCoordinates() const;
         sf::Sprite getSprite() const;
 
+        bool isClicked(sf::Vector2i mousePos) const;
         void update(float cellSize, sf::Vector2f position, bool isPlayerWhite);
 
         void render(sf::RenderWindow &window);
