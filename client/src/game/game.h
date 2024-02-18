@@ -17,6 +17,7 @@ class Game {
         Board board;
         Logs logs;
 
+        bool isPlayerWhite;
         std::vector<std::vector<Piece*>> pieces;
     
     public:

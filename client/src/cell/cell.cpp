@@ -7,9 +7,9 @@ void Cell::setCoordinates(const Coordinates &coordinates) {
     this->shape.setFillColor(coordinates.getColor());
 }
 
-void Cell::setSize(const int size, const sf::Vector2f &boardPos) {
+void Cell::setSize(const int size, const sf::Vector2f &boardPos, bool isPlayerWhite) {
     this->shape.setSize(sf::Vector2f(size, size));
-    this->shape.setPosition(this->coordinates.getPosition().first * size + boardPos.x, this->coordinates.getPosition().second * size + boardPos.y);
+    this->shape.setPosition(this->coordinates.getPosition(isPlayerWhite).first * size + boardPos.x, this->coordinates.getPosition(isPlayerWhite).second * size + boardPos.y);
 }
 
 Coordinates Cell::getCoordinates() const {

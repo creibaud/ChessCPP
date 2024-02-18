@@ -5,7 +5,10 @@ Logs::Logs() {
     this->windowSize = 0;
     this->maxSize = 0;
 
-    this->font.loadFromFile("assets/fonts/roboto/Roboto-Medium.ttf");
+    if (!this->font.loadFromFile("assets/fonts/roboto/Roboto-Medium.ttf")) {
+        std::cerr << "Error: could not load font" << std::endl;
+    }
+    
     this->fontSize = 0;
 
     for (int i = 0; i < 150; i++) {

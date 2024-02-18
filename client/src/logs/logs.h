@@ -1,6 +1,7 @@
 #ifndef LOGS_H
 #define LOGS_H
 
+#include <iostream>
 #include <vector>
 #include "../includes/colors.h"
 

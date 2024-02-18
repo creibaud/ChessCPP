@@ -38,7 +38,7 @@ class Piece {
         Coordinates getCoordinates() const;
         sf::Sprite getSprite() const;
 
-        void update(float cellSize, sf::Vector2f position);
+        void update(float cellSize, sf::Vector2f position, bool isPlayerWhite);
 
         void render(sf::RenderWindow &window);
 };

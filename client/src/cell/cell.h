@@ -14,7 +14,7 @@ class Cell {
         Cell();
 
         void setCoordinates(const Coordinates &coordinates);
-        void setSize(const int size, const sf::Vector2f &boardPos);
+        void setSize(const int size, const sf::Vector2f &boardPos, bool isPlayerWhite);
 
         Coordinates getCoordinates() const;
         sf::Vector2f getPosition() const;

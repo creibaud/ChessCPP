@@ -22,8 +22,12 @@ std::string Coordinates::getCoords() const {
     return this->coords;
 }
 
-std::pair<int, int> Coordinates::getPosition() const {
-    return std::make_pair(this->x, this->y);
+std::pair<int, int> Coordinates::getPosition(bool isPlayerWhite) const {
+    if (isPlayerWhite) {
+        return std::make_pair(this->x, this->y);
+    } else {
+        return std::make_pair(7 - this->x, 7 - this->y);
+    }
 }
 
 sf::Color Coordinates::getColor() const {

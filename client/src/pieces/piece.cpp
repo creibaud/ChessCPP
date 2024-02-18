@@ -60,9 +60,9 @@ sf::Sprite Piece::getSprite() const {
     return this->sprite;
 }
 
-void Piece::update(float cellSize, sf::Vector2f position) {
+void Piece::update(float cellSize, sf::Vector2f position, bool isPlayerWhite) {
     this->sprite.setScale(cellSize / this->texture.getSize().x, cellSize / this->texture.getSize().y);
-    this->sprite.setPosition(position.x + this->coordinates.getPosition().first * cellSize, position.y + this->coordinates.getPosition().second * cellSize);
+    this->sprite.setPosition(position.x + this->coordinates.getPosition(isPlayerWhite).first * cellSize, position.y + this->coordinates.getPosition(isPlayerWhite).second * cellSize);
 }
 
 void Piece::render(sf::RenderWindow &window) {

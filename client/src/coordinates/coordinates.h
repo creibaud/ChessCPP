@@ -19,7 +19,7 @@ class Coordinates {
         void setColor(const sf::Color &color);
 
         std::string getCoords() const;
-        std::pair<int, int> getPosition() const;
+        std::pair<int, int> getPosition(bool isPlayerWhite) const;
         sf::Color getColor() const;
 };
 

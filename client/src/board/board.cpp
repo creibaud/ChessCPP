@@ -1,10 +1,17 @@
 #include "board.h"
 
-Board::Board() {
+Board::Board() {}
+
+void Board::init(bool isPlayerWhite) {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
             Coordinates coords;
-            coords.setCoords(std::string(1, 'a' + j) + std::string(1, '8' - i));
+            if (isPlayerWhite) {
+                coords.setCoords(std::string(1, 'a' + j) + std::string(1, '8' - i));
+            } else {
+                coords.setCoords(std::string(1, 'h' - j) + std::string(1, '1' + i));
+            }
+
             if ((i + j) % 2 == 0) {
                 coords.setColor(COLOR_WHITE);
             } else {
@@ -24,7 +31,7 @@ sf::Vector2f Board::getPosition() const {
     return this->boardPosition;
 }
 
-void Board::update(sf::Vector2f windowSize) {
+void Board::update(sf::Vector2f windowSize, bool isPlayerWhite) {
     this->windowSize = static_cast<int>(std::min(windowSize.x, windowSize.y));
     this->boardSize = static_cast<int>(1.95 * this->windowSize / 3);
     this->cellSize = static_cast<int>(this->boardSize / BOARD_SIZE);
@@ -32,7 +39,7 @@ void Board::update(sf::Vector2f windowSize) {
 
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            this->cells[i][j].setSize(this->cellSize, this->boardPosition);
+            this->cells[i][j].setSize(this->cellSize, this->boardPosition, isPlayerWhite);
         }
     }
 }

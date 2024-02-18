@@ -17,10 +17,12 @@ class Board {
     public:
         Board();
 
+        void init(bool isPlayerWhite);
+
         int getCellSize() const;
         sf::Vector2f getPosition() const;
 
-        void update(sf::Vector2f windowSize);
+        void update(sf::Vector2f windowSize, bool isPlayerWhite);
 
         void render(sf::RenderWindow &window);
 };

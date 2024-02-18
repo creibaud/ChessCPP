@@ -4,7 +4,9 @@ Game::Game() {
     this->window.create(sf::VideoMode(1200, 800), "Chess");
     this->window.setFramerateLimit(60);
 
+    this->isPlayerWhite = true;
     this->logsViewPosY = 0;
+    this->board.init(this->isPlayerWhite);
     this->initPieces();
 }
 
@@ -66,12 +68,12 @@ void Game::handleEvents() {
 void Game::update() {
     this->staticView = sf::View(sf::FloatRect(0, 0, this->window.getSize().x, this->window.getSize().y));
     this->logsView = sf::View(sf::FloatRect(sf::FloatRect(0, this->logsViewPosY, this->window.getSize().x, this->window.getSize().y)));
-    this->board.update(this->staticView.getSize());
+    this->board.update(this->staticView.getSize(), this->isPlayerWhite);
     this->logs.update(this->staticView.getSize());
 
     for (std::vector<std::vector<Piece*>>::iterator vector = this->pieces.begin(); vector != this->pieces.end(); vector++) {
         for (std::vector<Piece*>::iterator piece = vector->begin(); piece != vector->end(); piece++) {
-            (*piece)->update(this->board.getCellSize(), this->board.getPosition());
+            (*piece)->update(this->board.getCellSize(), this->board.getPosition(), this->isPlayerWhite);
         }
     }
 }
