@@ -1,11 +1,19 @@
 #include "client.h"
 
-Client::Client() {}
+Client::Client() {
+    std::cout << "[*] Client started" << std::endl;
+    std::cout << "[*] Enter your pseudo : ";
+    std::cin >> this->pseudo;
+}
 
 void Client::connect(const std::string &addr, unsigned short port) {
     if (this->socket.connect(addr, port) != sf::Socket::Done) {
         std::cout << "[!] Can't connect to " << addr << ":" << port << std::endl;
     } else {
+        sf::Packet packet;
+        packet << this->pseudo;
+        this->sendPacket(packet);
+
         std::cout << "[*] Connected to " << addr << ":" << port << std::endl;
         this->isConnected = true;
     }
@@ -15,10 +23,9 @@ void Client::receivePacket(sf::TcpSocket *socket) {
     while (true) {
         if (socket->receive(this->lastPacket) == sf::Socket::Done) {
             std::string message;
-            std::string senderAddress;
-            unsigned short senderPort;
-            this->lastPacket >> message >> senderAddress >> senderPort;
-            std::cout << "From (" << senderAddress << ":" << senderPort << ") -> '" << message << "'" << std::endl;
+            std::string senderPseudo;
+            this->lastPacket >> message >> senderPseudo;
+            std::cout << "[" << senderPseudo << "] -> '" << message << "'" << std::endl;
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

@@ -17,6 +17,7 @@ class Cell {
         void setSize(const int size, const sf::Vector2f &boardPos);
 
         Coordinates getCoordinates() const;
+        sf::Vector2f getPosition() const;
         sf::RectangleShape getShape() const;
 
         void render(sf::RenderWindow &window);

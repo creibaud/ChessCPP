@@ -12,6 +12,7 @@ class Client {
         sf::TcpSocket socket;
         sf::Packet lastPacket;
 
+        std::string pseudo;
         bool isConnected = false;
     public:
         Client();

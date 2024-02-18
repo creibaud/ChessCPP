@@ -16,6 +16,10 @@ Coordinates Cell::getCoordinates() const {
     return this->coordinates;
 }
 
+sf::Vector2f Cell::getPosition() const {
+    return this->shape.getPosition();
+}
+
 sf::RectangleShape Cell::getShape() const {
     return this->shape;
 }

@@ -1,8 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "../board/board.h"
+#include "../pieces/piece.h"
 #include "../logs/logs.h"
+#include <vector>
 
 class Game {
     private:
@@ -15,9 +16,13 @@ class Game {
         
         Board board;
         Logs logs;
+
+        std::vector<std::vector<Piece*>> pieces;
     
     public:
         Game();
+
+        void initPieces();
 
         void run();
 

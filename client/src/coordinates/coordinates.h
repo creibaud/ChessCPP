@@ -13,6 +13,7 @@ class Coordinates {
 
     public:
         Coordinates();
+        Coordinates(const std::string &coords);
 
         void setCoords(const std::string &coords);
         void setColor(const sf::Color &color);

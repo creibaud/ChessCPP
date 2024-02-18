@@ -9,13 +9,16 @@ class Board {
     private:
         Cell cells[BOARD_SIZE][BOARD_SIZE];
 
-        float windowSize;
-        float cellSize;
-        float boardSize;
+        int windowSize;
+        int cellSize;
+        int boardSize;
         sf::Vector2f boardPosition;
 
     public:
         Board();
+
+        int getCellSize() const;
+        sf::Vector2f getPosition() const;
 
         void update(sf::Vector2f windowSize);
 

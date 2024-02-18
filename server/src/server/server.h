@@ -11,16 +11,16 @@
 class Server {
     private:
         sf::TcpListener listener;
-        std::vector<sf::TcpSocket*> clients;
+        std::map<std::string, sf::TcpSocket*> clients;
 
         sf::IpAddress address;
         unsigned short port;
 
-        void connectClients(std::vector<sf::TcpSocket*> *clients);
-        void disconnectClients(sf::TcpSocket *socket, std::vector<sf::TcpSocket*>::size_type index);
+        void connectClients(std::map<std::string, sf::TcpSocket*> *clients);
+        void disconnectClients(sf::TcpSocket *socket, std::string pseudo);
 
         void broadcastPacket(sf::Packet &packet, sf::TcpSocket *sender);
-        void receivePacket(sf::TcpSocket *client, std::vector<sf::TcpSocket*>::size_type index);
+        void receivePacket(sf::TcpSocket *client, std::string pseudo);
         void managePackets();
     public:
         Server(const std::string &addr, unsigned short port);

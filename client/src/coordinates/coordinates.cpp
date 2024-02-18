@@ -1,6 +1,11 @@
 #include "coordinates.h"
 
-Coordinates::Coordinates() {
+Coordinates::Coordinates() {}
+
+Coordinates::Coordinates(const std::string &coords) {
+    this->coords = coords;
+    this->x = coords[0] - 'a';
+    this->y = '8' - coords[1];
 }
 
 void Coordinates::setCoords(const std::string &coords) {
