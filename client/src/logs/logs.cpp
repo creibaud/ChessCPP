@@ -11,7 +11,8 @@ Logs::Logs() {
     
     this->fontSize = 0;
     this->actualIndex = 1;
-    this->logsText.emplace(this->actualIndex, std::vector<sf::Text*>());
+    sf::Text *index = new sf::Text(std::to_string(this->actualIndex), this->font, this->fontSize);
+    this->logsText[this->actualIndex].emplace_back(index);
 }
 
 void Logs::addLog(const std::string &log) {
@@ -24,12 +25,13 @@ void Logs::addLog(const std::string &log) {
     }
 
     text->setFont(this->font);
-    text->setFillColor(COLOR_WHITE);
     
-    if (this->logsText[this->actualIndex].size() < 2) {
+    if (this->logsText[this->actualIndex].size() < 3) {
         this->logsText[this->actualIndex].emplace_back(text);
     } else {
         this->actualIndex++;
+        sf::Text *index = new sf::Text(std::to_string(this->actualIndex), this->font, this->fontSize);
+        this->logsText[this->actualIndex].emplace_back(index);
         this->logsText[this->actualIndex].emplace_back(text);
     }
 }
@@ -72,7 +74,7 @@ void Logs::renderText(sf::RenderWindow &window) {
     for (std::map<int, std::vector<sf::Text*>>::iterator it = this->logsText.begin(); it != this->logsText.end(); ++it) {
         for (std::vector<sf::Text*>::size_type i = 0; i != it->second.size(); i++) {
             it->second[i]->setCharacterSize(this->fontSize);
-            it->second[i]->setPosition(this->shape.getPosition().x + it->second[i]->getGlobalBounds().width * i + 2 * i * this->fontSize, this->shape.getPosition().y + it->first * this->fontSize);
+            it->second[i]->setPosition(this->shape.getPosition().x + 4 * i * this->fontSize + (i == 0 ? this->fontSize : 0), this->shape.getPosition().y + (it->first - 1) * (this->fontSize + 1));
             window.draw(*it->second[i]);
         }
     }
