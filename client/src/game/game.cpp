@@ -149,7 +149,8 @@ void Game::handlePieceClick(sf::Event &event) {
                         switch (this->selectedPiece->getType()) {
                             case PieceType::PAWN: {
                                 Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
-                                pawn->setPossibleMoves();
+                                pawn->setPossibleMoves(this->playerPieces, this->enemyPieces);
+                                pawn->setPossibleAttacks(this->playerPieces, this->enemyPieces);
                                 break;
                             }
                             default:
@@ -179,7 +180,33 @@ void Game::handlePieceClickMove(sf::Event &event) {
                                 packet << line;
                                 this->client.sendPacket(packet);
 
-                                this->logs.addLog(line.substr(0, 2) + line.substr(7, 2));
+                                this->logs.addLog(line);
+
+                                this->selectedPiece = nullptr;
+                                this->isClientTurn = false;
+                                return;
+                            }
+                        }
+
+                        for (std::vector<Coordinates*>::size_type i = 0; i < this->selectedPiece->getPossibleAttacks().size(); i++) {
+                            if (this->selectedPiece->getPossibleAttacks()[i]->getCoords() == this->board.getCell(row, col).getCoordinates().getCoords()) {
+                                Coordinates oldCoord = this->selectedPiece->getCoordinates();
+                                this->selectedPiece->setCoordinates(*this->selectedPiece->getPossibleAttacks()[i]);
+                                this->selectedPiece->setSelected(false);
+
+                                std::string line =  this->selectedPiece->getName() + "x" + ":" + oldCoord.getCoords() + "->" + this->selectedPiece->getCoordinates().getCoords();
+                                sf::Packet packet;
+                                packet << line;
+                                this->client.sendPacket(packet);
+
+                                this->logs.addLog(line);
+
+                                for (std::vector<Piece*>::iterator it = this->enemyPieces->begin(); it != this->enemyPieces->end(); it++) {
+                                    if ((*it)->getCoordinates().getCoords() == this->selectedPiece->getCoordinates().getCoords()) {
+                                        this->enemyPieces->erase(it);
+                                        break;
+                                    }
+                                }
 
                                 this->selectedPiece = nullptr;
                                 this->isClientTurn = false;
@@ -199,11 +226,23 @@ void Game::update() {
         std::cout << "Enemy move: " << this->enemyMoves.back() << std::endl;
 
         std::string coords = this->enemyMoves.back();
-        this->logs.addLog(coords.substr(0, 2) + coords.substr(7, 2));
+        this->logs.addLog(coords);
         for (std::vector<Piece*>::iterator piece = this->enemyPieces->begin(); piece != this->enemyPieces->end(); piece++) {
             if ((*piece)->getName() == coords.substr(0, 1)) {
                 if ((*piece)->getCoordinates().getCoords() == coords.substr(3, 2)) {
                     (*piece)->setCoordinates(Coordinates(coords.substr(7, 2)));
+
+                    if (coords.substr(1, 1) == std::string(1, 'x')) {
+                        for (std::vector<Piece*>::iterator it = this->playerPieces->begin(); it != this->playerPieces->end(); it++) {
+                            if ((*it)->getCoordinates().getCoords() == coords.substr(7, 2)) {
+                                this->playerPieces->erase(it);
+                                break;
+                            }
+                        }
+                    
+                    }
+
+                    break;
                 }
             }
         }

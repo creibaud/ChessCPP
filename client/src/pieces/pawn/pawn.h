@@ -9,8 +9,11 @@ class Pawn : public Piece {
         
     public:
         Pawn(PieceColor color, Coordinates coordinates);
-        void setPossibleAttacks() override;
-        void setPossibleMoves() override;
+
+        void setPossibleAttacks(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces) override;
+        void setPossibleMoves(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces) override;
+
+        ~Pawn() override;
 };
 
 #endif // PAWN_H

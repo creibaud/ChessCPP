@@ -70,12 +70,16 @@ void Piece::setCoordinates(Coordinates coordinates){
     this->coordinates = coordinates;
 }
 
-void Piece::setPossibleAttacks() {
+void Piece::setPossibleAttacks(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces) {
+    std::cout << playerPieces->size() << std::endl;
+    std::cout << enemyPieces->size() << std::endl;
     this->possibleAttacksShape.clear();
     this->possibleAttacks.clear();
 }
 
-void Piece::setPossibleMoves() {
+void Piece::setPossibleMoves(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces) {
+    std::cout << playerPieces->size() << std::endl;
+    std::cout << enemyPieces->size() << std::endl;
     this->possibleMovesShape.clear();
     this->possibleMoves.clear();
 }
@@ -125,8 +129,9 @@ void Piece::update(float cellSize, sf::Vector2f position, bool isPlayerWhite) {
     }
 
     for (std::vector<sf::CircleShape*>::size_type i = 0; i != this->possibleAttacksShape.size(); i++) {
-        this->possibleAttacksShape[i]->setRadius(this->cellSize * 0.25);
-        this->possibleAttacksShape[i]->setPosition(this->position.x + this->possibleAttacks[i]->getPosition(isPlayerWhite).first * cellSize + cellSize / 2 - this->cellSize * 0.25, this->position.y + this->possibleAttacks[i]->getPosition(isPlayerWhite).second * cellSize + cellSize / 2 - this->cellSize * 0.25);
+        this->possibleAttacksShape[i]->setRadius(this->cellSize / 2 - this->cellSize * 0.125);
+        this->possibleAttacksShape[i]->setOutlineThickness(this->cellSize * 0.125);
+        this->possibleAttacksShape[i]->setPosition(this->position.x + this->possibleAttacks[i]->getPosition(isPlayerWhite).first * cellSize + this->cellSize * 0.125, this->position.y + this->possibleAttacks[i]->getPosition(isPlayerWhite).second * cellSize + this->cellSize * 0.125);
     }
 
     for (std::vector<sf::CircleShape*>::size_type i = 0; i != this->possibleMovesShape.size(); i++) {
@@ -164,4 +169,16 @@ void Piece::render(sf::RenderWindow &window) {
     }
 
     window.draw(this->sprite);
+}
+
+Piece::~Piece() {
+    for (std::vector<Coordinates*>::size_type i = 0; i < this->possibleAttacks.size(); i++) {
+        delete this->possibleAttacks[i];
+        delete this->possibleAttacksShape[i];
+    }
+
+    for (std::vector<Coordinates*>::size_type i = 0; i < this->possibleMoves.size(); i++) {
+        delete this->possibleMoves[i];
+        delete this->possibleMovesShape[i];
+    }
 }

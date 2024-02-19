@@ -47,8 +47,8 @@ class Piece {
         Piece(PieceType type, PieceColor color, Coordinates coordinates);
 
         void setCoordinates(Coordinates coordinates);
-        virtual void setPossibleAttacks();
-        virtual void setPossibleMoves();
+        virtual void setPossibleAttacks(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces);
+        virtual void setPossibleMoves(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces);
         void setSelected(bool selected);
         
         std::string getName() const;
@@ -65,6 +65,8 @@ class Piece {
         void renderPossibleAttacks(sf::RenderWindow &window);
         void renderPossibleMoves(sf::RenderWindow &window);
         void render(sf::RenderWindow &window);
+
+        virtual ~Piece();
 };
 
 #endif // PIECE_H

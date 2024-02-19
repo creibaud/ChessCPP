@@ -19,9 +19,17 @@ void Logs::addLog(const std::string &log) {
     sf::Text *text = new sf::Text();
     
     if (log[1] == 'x') {
-        text->setString(log);
+        if (log.substr(0, 1) == std::string(1, 'P')) {
+            text->setString(log.substr(3, 1) + log.substr(1, 1) + log.substr(7, 2));
+        } else {
+            text->setString(log.substr(0, 2) + log.substr(7, 2));
+        }
     } else {
-        text->setString(log.substr(0, 1) + log.substr(2, 2));
+        if (log.substr(0, 1) == std::string(1, 'P')) {
+            text->setString(log.substr(7, 2));
+        } else {
+            text->setString(log.substr(0, 1) + log.substr(7, 2));
+        }
     }
 
     text->setFont(this->font);
