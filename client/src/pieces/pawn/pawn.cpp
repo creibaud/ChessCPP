@@ -2,6 +2,11 @@
 
 Pawn::Pawn(PieceColor color, Coordinates coordinates) : Piece(PieceType::PAWN, color, coordinates) {
     this->direction = (color == PieceColor::WHITE) ? 1 : -1;
+    this->firstMove = true;
+}
+
+void Pawn::setFirstMove(bool firstMove) {
+    this->firstMove = firstMove;
 }
 
 void Pawn::setPossibleAttacks(std::vector<Piece*> *playerPieces, std::vector<Piece*> *enemyPieces) {
@@ -56,32 +61,35 @@ void Pawn::setPossibleMoves(std::vector<Piece*> *playerPieces, std::vector<Piece
     this->possibleMovesShape.clear();
 
     std::string coords = this->coordinates.getCoords();
-    coords[1] += this->direction;
+
+    for (int i = 0; i < 1 + (this->firstMove ? 1 : 0); i++) {
+        coords[1] += this->direction;
     
-    if (coords[1] >= '1' && coords[1] <= '8') {
-        bool isValid = true;
-        for (std::vector<Piece*>::iterator it = playerPieces->begin(); it != playerPieces->end(); it++) {
-            if ((*it)->getCoordinates().getCoords() == coords) {
-                isValid = false;
-                break;
+        if (coords[1] >= '1' && coords[1] <= '8') {
+            bool isValid = true;
+            for (std::vector<Piece*>::iterator it = playerPieces->begin(); it != playerPieces->end(); it++) {
+                if ((*it)->getCoordinates().getCoords() == coords) {
+                    isValid = false;
+                    break;
+                }
             }
-        }
 
-        for (std::vector<Piece*>::iterator it = enemyPieces->begin(); it != enemyPieces->end(); it++) {
-            if ((*it)->getCoordinates().getCoords() == coords) {
-                isValid = false;
-                break;
+            for (std::vector<Piece*>::iterator it = enemyPieces->begin(); it != enemyPieces->end(); it++) {
+                if ((*it)->getCoordinates().getCoords() == coords) {
+                    isValid = false;
+                    break;
+                }
             }
-        }
 
-        if (isValid) {
-            Coordinates* newCoords = new Coordinates(coords);
+            if (isValid) {
+                Coordinates* newCoords = new Coordinates(coords);
 
-            sf::CircleShape* shape = new sf::CircleShape();
-            shape->setFillColor(COLOR_POSSIBLE_MOVE);
+                sf::CircleShape* shape = new sf::CircleShape();
+                shape->setFillColor(COLOR_POSSIBLE_MOVE);
 
-            this->possibleMoves.push_back(newCoords);
-            this->possibleMovesShape.push_back(shape);
+                this->possibleMoves.push_back(newCoords);
+                this->possibleMovesShape.push_back(shape);
+            }
         }
     }
 }

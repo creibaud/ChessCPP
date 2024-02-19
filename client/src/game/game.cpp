@@ -182,6 +182,11 @@ void Game::handlePieceClickMove(sf::Event &event) {
 
                                 this->logs.addLog(line);
 
+                                if (this->selectedPiece->getType() == PieceType::PAWN) {
+                                    Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
+                                    pawn->setFirstMove(false);
+                                }
+
                                 this->selectedPiece = nullptr;
                                 this->isClientTurn = false;
                                 return;
@@ -206,6 +211,11 @@ void Game::handlePieceClickMove(sf::Event &event) {
                                         this->enemyPieces->erase(it);
                                         break;
                                     }
+                                }
+
+                                if (this->selectedPiece->getType() == PieceType::PAWN) {
+                                    Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
+                                    pawn->setFirstMove(false);
                                 }
 
                                 this->selectedPiece = nullptr;
