@@ -2,22 +2,9 @@
 #define PIECE_H
 
 #include "../board/board.h"
+#include "../includes/pieces.h"
 #include <iostream>
 #include <fstream>
-
-enum class PieceType {
-    PAWN,
-    ROOK,
-    KNIGHT,
-    BISHOP,
-    QUEEN,
-    KING
-};
-
-enum class PieceColor {
-    WHITE,
-    BLACK
-};
 
 class Piece {
     private:
