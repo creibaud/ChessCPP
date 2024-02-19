@@ -1,11 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "../pieces/piece.h"
 #include "../pieces/pawn/pawn.h"
 #include "../pieces/rook/rook.h"
 #include "../pieces/knight/knight.h"
 #include "../pieces/bishop/bishop.h"
+#include "../pieces/queen/queen.h"
 #include "../pieces/king/king.h"
 #include "../logs/logs.h"
 #include "../client/client.h"

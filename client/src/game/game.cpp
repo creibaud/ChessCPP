@@ -57,7 +57,7 @@ void Game::initPieces() {
     whitePieces->push_back(new Rook(PieceColor::WHITE, Coordinates("a1")));
     whitePieces->push_back(new Knight(PieceColor::WHITE, Coordinates("b1")));
     whitePieces->push_back(new Bishop(PieceColor::WHITE, Coordinates("c1")));
-    whitePieces->push_back(new Piece(PieceType::QUEEN, PieceColor::WHITE, Coordinates("d1")));
+    whitePieces->push_back(new Queen(PieceColor::WHITE, Coordinates("d1")));
     whitePieces->push_back(new King(PieceColor::WHITE, Coordinates("e1")));
     whitePieces->push_back(new Bishop(PieceColor::WHITE, Coordinates("f1")));
     whitePieces->push_back(new Knight(PieceColor::WHITE, Coordinates("g1")));
@@ -66,7 +66,7 @@ void Game::initPieces() {
     blackPieces->push_back(new Rook(PieceColor::BLACK, Coordinates("a8")));
     blackPieces->push_back(new Knight(PieceColor::BLACK, Coordinates("b8")));
     blackPieces->push_back(new Bishop(PieceColor::BLACK, Coordinates("c8")));
-    blackPieces->push_back(new Piece(PieceType::QUEEN, PieceColor::BLACK, Coordinates("d8")));
+    blackPieces->push_back(new Queen(PieceColor::BLACK, Coordinates("d8")));
     blackPieces->push_back(new King(PieceColor::BLACK, Coordinates("e8")));
     blackPieces->push_back(new Bishop(PieceColor::BLACK, Coordinates("f8")));
     blackPieces->push_back(new Knight(PieceColor::BLACK, Coordinates("g8")));
@@ -161,6 +161,10 @@ void Game::handlePieceClick(sf::Event &event) {
                             }
                             case PieceType::BISHOP: {
                                 this->selectedPiece = dynamic_cast<Bishop*>(this->selectedPiece);
+                                break;
+                            }
+                            case PieceType::QUEEN: {
+                                this->selectedPiece = dynamic_cast<Queen*>(this->selectedPiece);
                                 break;
                             }
                             case PieceType::KING: {
