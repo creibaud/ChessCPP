@@ -54,23 +54,23 @@ void Game::initPieces() {
         blackPieces->push_back(new Pawn(PieceColor::BLACK, Coordinates(std::string(1, 'a' + i) + "7")));
     }
 
-    whitePieces->push_back(new Piece(PieceType::ROOK, PieceColor::WHITE, Coordinates("a1")));
-    whitePieces->push_back(new Piece(PieceType::KNIGHT, PieceColor::WHITE, Coordinates("b1")));
+    whitePieces->push_back(new Rook(PieceColor::WHITE, Coordinates("a1")));
+    whitePieces->push_back(new Knight(PieceColor::WHITE, Coordinates("b1")));
     whitePieces->push_back(new Piece(PieceType::BISHOP, PieceColor::WHITE, Coordinates("c1")));
     whitePieces->push_back(new Piece(PieceType::QUEEN, PieceColor::WHITE, Coordinates("d1")));
-    whitePieces->push_back(new Piece(PieceType::KING, PieceColor::WHITE, Coordinates("e1")));
+    whitePieces->push_back(new King(PieceColor::WHITE, Coordinates("e1")));
     whitePieces->push_back(new Piece(PieceType::BISHOP, PieceColor::WHITE, Coordinates("f1")));
-    whitePieces->push_back(new Piece(PieceType::KNIGHT, PieceColor::WHITE, Coordinates("g1")));
-    whitePieces->push_back(new Piece(PieceType::ROOK, PieceColor::WHITE, Coordinates("h1")));
+    whitePieces->push_back(new Knight(PieceColor::WHITE, Coordinates("g1")));
+    whitePieces->push_back(new Rook(PieceColor::WHITE, Coordinates("h1")));
 
-    blackPieces->push_back(new Piece(PieceType::ROOK, PieceColor::BLACK, Coordinates("a8")));
-    blackPieces->push_back(new Piece(PieceType::KNIGHT, PieceColor::BLACK, Coordinates("b8")));
+    blackPieces->push_back(new Rook(PieceColor::BLACK, Coordinates("a8")));
+    blackPieces->push_back(new Knight(PieceColor::BLACK, Coordinates("b8")));
     blackPieces->push_back(new Piece(PieceType::BISHOP, PieceColor::BLACK, Coordinates("c8")));
     blackPieces->push_back(new Piece(PieceType::QUEEN, PieceColor::BLACK, Coordinates("d8")));
-    blackPieces->push_back(new Piece(PieceType::KING, PieceColor::BLACK, Coordinates("e8")));
+    blackPieces->push_back(new King(PieceColor::BLACK, Coordinates("e8")));
     blackPieces->push_back(new Piece(PieceType::BISHOP, PieceColor::BLACK, Coordinates("f8")));
-    blackPieces->push_back(new Piece(PieceType::KNIGHT, PieceColor::BLACK, Coordinates("g8")));
-    blackPieces->push_back(new Piece(PieceType::ROOK, PieceColor::BLACK, Coordinates("h8")));
+    blackPieces->push_back(new Knight(PieceColor::BLACK, Coordinates("g8")));
+    blackPieces->push_back(new Rook(PieceColor::BLACK, Coordinates("h8")));
 
     if (this->isPlayerWhite) {
         this->playerPieces = whitePieces;
@@ -148,14 +148,27 @@ void Game::handlePieceClick(sf::Event &event) {
                     if (this->selectedPiece != nullptr) {
                         switch (this->selectedPiece->getType()) {
                             case PieceType::PAWN: {
-                                Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
-                                pawn->setPossibleMoves(this->playerPieces, this->enemyPieces);
-                                pawn->setPossibleAttacks(this->playerPieces, this->enemyPieces);
+                                this->selectedPiece = dynamic_cast<Pawn*>(this->selectedPiece);
+                                break;
+                            }
+                            case PieceType::ROOK: {
+                                this->selectedPiece = dynamic_cast<Rook*>(this->selectedPiece);
+                                break;
+                            }
+                            case PieceType::KNIGHT: {
+                                this->selectedPiece = dynamic_cast<Knight*>(this->selectedPiece);
+                                break;
+                            }
+                            case PieceType::KING: {
+                                this->selectedPiece = dynamic_cast<King*>(this->selectedPiece);
                                 break;
                             }
                             default:
                                 break;
                         }
+
+                        this->selectedPiece->setPossibleMoves(this->playerPieces, this->enemyPieces);
+                        this->selectedPiece->setPossibleAttacks(this->playerPieces, this->enemyPieces);
                     }
                 }
             }
@@ -183,7 +196,7 @@ void Game::handlePieceClickMove(sf::Event &event) {
                                 this->logs.addLog(line);
 
                                 if (this->selectedPiece->getType() == PieceType::PAWN) {
-                                    Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
+                                    Pawn *pawn = dynamic_cast<Pawn*>(this->selectedPiece);
                                     pawn->setFirstMove(false);
                                 }
 
@@ -214,7 +227,7 @@ void Game::handlePieceClickMove(sf::Event &event) {
                                 }
 
                                 if (this->selectedPiece->getType() == PieceType::PAWN) {
-                                    Pawn* pawn = dynamic_cast<Pawn*>(this->selectedPiece);
+                                    Pawn *pawn = dynamic_cast<Pawn*>(this->selectedPiece);
                                     pawn->setFirstMove(false);
                                 }
 

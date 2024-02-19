@@ -3,6 +3,9 @@
 
 #include "../pieces/piece.h"
 #include "../pieces/pawn/pawn.h"
+#include "../pieces/rook/rook.h"
+#include "../pieces/knight/knight.h"
+#include "../pieces/king/king.h"
 #include "../logs/logs.h"
 #include "../client/client.h"
 #include <vector>

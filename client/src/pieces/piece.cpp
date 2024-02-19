@@ -108,6 +108,14 @@ sf::Sprite Piece::getSprite() const {
     return this->sprite;
 }
 
+std::vector<Coordinates*> Piece::getPossibleAttacks() const {
+    return this->possibleAttacks;
+}
+
+std::vector<Coordinates*> Piece::getPossibleMoves() const {
+    return this->possibleMoves;
+}
+
 bool Piece::isHovered(sf::Vector2i mousePos) const {
     return this->sprite.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
@@ -138,14 +146,6 @@ void Piece::update(float cellSize, sf::Vector2f position, bool isPlayerWhite) {
         this->possibleMovesShape[i]->setRadius(this->cellSize * 0.15);
         this->possibleMovesShape[i]->setPosition(this->position.x + this->possibleMoves[i]->getPosition(isPlayerWhite).first * cellSize + cellSize / 2 - this->cellSize * 0.15, this->position.y + this->possibleMoves[i]->getPosition(isPlayerWhite).second * cellSize + cellSize / 2 - this->cellSize * 0.15);
     }
-}
-
-std::vector<Coordinates*> Piece::getPossibleAttacks() const {
-    return this->possibleAttacks;
-}
-
-std::vector<Coordinates*> Piece::getPossibleMoves() const {
-    return this->possibleMoves;
 }
 
 void Piece::renderPossibleAttacks(sf::RenderWindow &window) {
